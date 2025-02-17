@@ -16,7 +16,7 @@ export default function Books() {
 
         const { error } = await supabase
             .from("books")
-            .insert({
+            .insert ({
                 title: title,
                 author: author,
                 user_id: user_id

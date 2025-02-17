@@ -13,11 +13,11 @@ export default function App() {
   return (
     <AuthProvider>
       <Router root={Layout}>
-        <Route path="/" component={Home} />
+        <Route path="/Home" component={Home} />
         <Route path="/SignIn" component={SignIn} />
         <Route path="/SignOut" component={SignOut} />
         <Route path="/books" component={Books} />
-        <Route path="/authors:id" component={Authors} />
+        <Route path="/authors" component={Authors} />
         <Route path="/Register" component={Register} />
       </Router>
     </AuthProvider>
@@ -34,15 +34,15 @@ function Layout(props) {
         <header class="p-4 flex justify-between items-center max-w-screen-xl mx-auto">
           <div class="text-4xl font-bold tracking-wider">{appName}</div>
           <div class="flex gap-4 items-center">
-            <A href="/" class="nav-link">🏠Naslovnica</A>
+            <A href="/Home" class="nav-link">🏠Naslovnica</A>
             <Show when={session()}>
-              <A href="books" class="nav-link">Dodavanje knjiga</A>
+              <A href="/books" class="nav-link">Dodavanje knjiga</A>
             </Show>
             <Show when={session()}>
               <A href="/authors" class="nav-link">Autori</A>
             </Show>
             <Show when={session()}>
-              <A href="signout" class="nav-link">Odjava</A>
+              <A href="/signout" class="nav-link">Odjava</A>
             </Show>
             <Show when={!session()}>
               <details class="relative">

@@ -5,16 +5,9 @@ import { supabase } from "../services/supabase";
 export default function Home() {
     const session = useAuth();
     const [books, setBooks] = createSignal([]);
-    const [isAdmin, setAdmin] = createSignal(false);
 
     onMount(async () => {
         await loadBooks();
-        const { data: userData } = await supabase
-            .from("users")
-            .select("role")
-            .eq("id", session().user.id)
-            .single();
-        if (userData?.role === "admin") setAdmin(true);
     });
 
     async function loadBooks() {
@@ -23,20 +16,9 @@ export default function Home() {
                 .from("books")
                 .select("*, authors(count)");
             if (!error) {
+                console.log(data, error);
                 setBooks(data);
             }
-        }
-    }
-
-    async function deleteBook(bookId) {
-        const { error } = await supabase
-            .from("books")
-            .delete()
-            .eq("id", bookId);
-        if (error) {
-            alert("Brisanje nije uspjelo.");
-        } else {
-            await loadBooks();
         }
     }
 
@@ -64,13 +46,6 @@ export default function Home() {
                                     <a href={`/books/${item.id}`} class="bg-blue-500 text-white p-3 rounded-md text-sm font-medium hover:bg-blue-600 transition-all duration-300">
                                         Prikaži
                                     </a>
-                                    <Show when={isAdmin()}>
-                                        <button 
-                                            class="bg-red-500 text-white p-3 rounded-md text-sm font-medium hover:bg-red-600 transition-all duration-300"
-                                            onClick={() => deleteBook(item.id)}>
-                                            Briši
-                                        </button>
-                                    </Show>
                                 </div>
                             </div>
                         )}
